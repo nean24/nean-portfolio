@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Sắc Lê
 
-## Getting Started
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](#)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-06B6D4)](#)
+[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-animations-DB2777)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6)](#)
+[![i18n](https://img.shields.io/badge/i18n-EN%2FVI-10B981)](#)
 
-First, run the development server:
+> Modern portfolio with glassmorphism, animated gradients, sticky glass navbar, full‑screen snap sections, system dark/light, and EN/VI.
 
+## Features
+- Next.js 15 (App Router), TypeScript
+- Tailwind CSS v4 + `@tailwindcss/postcss`
+- Framer Motion animations
+- Lucide icons
+- EN/VI dictionaries with middleware locale routing
+- Sticky glass navbar, animated gradient blobs
+- Full‑screen sections with smooth snap scrolling
+
+## Quickstart
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# open http://localhost:3000 (middleware redirects to /en or /vi)
