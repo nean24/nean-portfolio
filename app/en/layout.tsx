@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AnimatedBlobs from "@/components/AnimatedBlobs";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavBar";
 import { getDictionary } from "@/lib/dictionary";
 import SnapScroll from "@/components/SnapScroll";
 
