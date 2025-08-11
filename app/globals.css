@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ---- Viewport & scroll snap (navbar stays visible, sections centered) ---- */
+html, body { height: 100%; }
+body { overflow: hidden; }
+
+:root {
+  --nav-h: 84px;          /* actual navbar height */
+  --nav-offset: 16px;     /* top-4 gap */
+}
+
+/* Make <main> the scroll container so header can be fixed outside */
+main {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;   /* smoother than mandatory */
+  scroll-behavior: smooth;          /* programmatic + anchor smoothness */
+  /* No padding-top here; we keep content truly centered. */
+  scroll-padding-top: calc(var(--nav-h) + var(--nav-offset));
+  overscroll-behavior-y: none;
+}
+/* Temporarily disable snap during JS-controlled scrolling to avoid jitter */
+main[data-lock="true"] { scroll-snap-type: none; }
+
+/* Fullscreen, centered section that snaps to the top
+   Height = viewport minus fixed navbar area → true visual centering */
+.snap-section {
+  min-height: calc(100dvh - var(--nav-h) - var(--nav-offset));
+  display: grid;
+  place-items: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always; /* prevents skipping multiple sections */
+}
+
+/* ---- Base ---- */
+:root { --radius: 16px; }
+
+body {
+  background-color: #0a0a0a; /* dark default looks premium */
+  color: rgb(245 245 245);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+:root:has(html:not(.dark)) body {
+  background-color: #ffffff;
+  color: rgb(38 38 38);
+}
+
+/* Soft gradient background texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(99,102,241,0.08), transparent 60%),
+    radial-gradient(900px 500px at 90% 10%, rgba(16,185,129,0.08), transparent 60%),
+    radial-gradient(700px 600px at 50% 120%, rgba(236,72,153,0.06), transparent 60%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* ---- Reusable utilities ---- */
+.glass {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+:root:has(html:not(.dark)) .glass {
+  background: rgba(255,255,255,0.60);
+  border-color: rgba(17,17,17,0.10);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.text-gradient { background: linear-gradient(90deg, #a78bfa, #34d399); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.hover-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.hover-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.25); border-color: rgba(255,255,255,0.25); }
+
+/* Container */
+.section { max-width: 72rem; margin-inline: auto; padding-inline: 1.5rem; padding-block: 4rem; width: 100%; }
+@media (min-width: 768px) { .section { padding-inline: 2.5rem; padding-block: 6rem; } }
+
+.section-title { font-size: clamp(1.75rem, 1.1rem + 2.2vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.section-sub { opacity: .7; margin-bottom: 2rem; }
+
+.card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  padding: 1.25rem;
+}
+:root:has(html:not(.dark)) .card { background: rgba(255,255,255,0.60); border-color: rgba(17,17,17,0.10); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+
+.input { width: 100%; border-radius: .75rem; padding: .625rem .75rem; background: rgba(255,255,255,0.75); border: 1px solid rgba(17,17,17,0.12); outline: none; transition: box-shadow .2s ease, border-color .2s ease; }
+html.dark .input { background: rgba(17,17,17,0.35); border-color: rgba(255,255,255,0.12); color: #fff; }
+.input:focus { box-shadow: 0 0 0 6px rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.45); }
+
+.btn { border-radius: .75rem; padding: .625rem 1rem; font-weight: 600; }
+.btn-primary { background: #4f46e5; color: #fff; }
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+:root:has(html:not(.dark)) .btn-ghost { background: rgba(255,255,255,0.6); border-color: rgba(17,17,17,0.1); }
