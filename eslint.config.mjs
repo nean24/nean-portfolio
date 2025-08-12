@@ -9,6 +9,7 @@ const compat = new FlatCompat({
 })
 
 export default [
+  {ignores: ['.next/**','node_modules/**','public/**','*.config.*']},
   // Next.js presets (via compat)
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript'],
