@@ -6,7 +6,7 @@ import SnapScroll from "@/components/SnapScroll";
 import { getDictionary } from "@/lib/dictionary";
 
 export const metadata: Metadata = {
-  title: "Portfolio — Sắc Lê",
+  title: "Portfolio - Sắc Lê",
   description: "Modern glass portfolio with EN/VI, dark & light modes.",
   icons: { icon: "/favicon.ico" }
 };
