@@ -6,11 +6,19 @@ import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Contact from "@/components/sections/Contact";
 
-export default async function Page({ params }: { params: { locale?: "en" | "vi" } }) {
-  const dict = await getDictionary(params.locale ?? "vi");
+// Next.js 15: params is a Promise in App Router
+type PageProps = {
+  params: Promise<{ locale?: "en" | "vi" }>;
+};
+
+export default async function Page({ params }: PageProps) {
+  const { locale: raw } = await params;
+  const locale: "en" | "vi" = raw === "vi" ? "vi" : "en";
+  const dict = await getDictionary(locale);
+
   return (
     <>
-      <Hero dict={dict} locale={(params.locale ?? "vi") as "en" | "vi"} />
+      <Hero dict={dict} locale={locale} />
       <About dict={dict} />
       <Projects dict={dict} />
       <Experience dict={dict} />

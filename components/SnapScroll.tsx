@@ -1,16 +1,30 @@
 "use client";
 import { useEffect } from "react";
 
+type ScrollEndTarget = HTMLElement & {
+  addEventListener(
+    type: "scrollend",
+    listener: (e: Event) => void,
+    options?: AddEventListenerOptions
+  ): void;
+  removeEventListener(
+    type: "scrollend",
+    listener: (e: Event) => void,
+    options?: EventListenerOptions
+  ): void;
+};
+
 export default function SnapScroll() {
   useEffect(() => {
-    const scroller = document.querySelector("main");
-    if (!scroller) return;
+    const scrollerEl = document.querySelector("main");
+    if (!scrollerEl) return;
+    const scroller = scrollerEl as HTMLElement;
 
     let locked = false;
     const sections = Array.from(scroller.querySelectorAll<HTMLElement>(".snap-section"));
 
-    const currentIndex = () => {
-      const y = (scroller as HTMLElement).scrollTop;
+    const currentIndex = (): number => {
+      const y = scroller.scrollTop;
       let best = 0, bestDist = Infinity;
       sections.forEach((sec, i) => {
         const dist = Math.abs(sec.offsetTop - y);
@@ -19,31 +33,34 @@ export default function SnapScroll() {
       return best;
     };
 
-    const unlock = () => {
+    const unlock = (): void => {
       locked = false;
-      (scroller as HTMLElement).removeAttribute("data-lock");
+      scroller.removeAttribute("data-lock");
     };
 
-    const goTo = (idx: number) => {
+    const goTo = (idx: number): void => {
       const target = sections[idx];
       if (!target) return;
       locked = true;
-      (scroller as HTMLElement).setAttribute("data-lock", "true");
+      scroller.setAttribute("data-lock", "true");
       target.scrollIntoView({ behavior: "smooth", block: "start" });
 
-      // Use scrollend if available; fall back to a timeout
-      const onEnd = () => {
-        (scroller as HTMLElement).removeEventListener("scrollend", onEnd as any);
+      const el = scroller as ScrollEndTarget;
+      const onEnd: (e: Event) => void = () => {
+        el.removeEventListener("scrollend", onEnd);
         unlock();
       };
-      (scroller as HTMLElement).addEventListener("scrollend", onEnd as any, { once: true });
-      // Fallback for browsers without scrollend
-      setTimeout(() => unlock(), 800);
+      try {
+        el.addEventListener("scrollend", onEnd, { once: true });
+        // fallback timer in case scrollend isn't supported
+        window.setTimeout(unlock, 800);
+      } catch {
+        window.setTimeout(unlock, 800);
+      }
     };
 
-    const onWheel = (e: WheelEvent) => {
+    const onWheel: (e: WheelEvent) => void = (e) => {
       if (locked) { e.preventDefault(); return; }
-      // ignore tiny touchpad jitters
       if (Math.abs(e.deltaY) < 40) return;
       e.preventDefault();
       const idx = currentIndex();
@@ -51,25 +68,25 @@ export default function SnapScroll() {
       if (next !== idx) goTo(next);
     };
 
-    const onKey = (e: KeyboardEvent) => {
+    const onKey: (e: KeyboardEvent) => void = (e) => {
       if (locked) { e.preventDefault(); return; }
-      if (["ArrowDown", "PageDown", " "].includes(e.key)) {
+      if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
         e.preventDefault();
         const idx = currentIndex();
         goTo(Math.min(idx + 1, sections.length - 1));
-      } else if (["ArrowUp", "PageUp"].includes(e.key)) {
+      } else if (e.key === "ArrowUp" || e.key === "PageUp") {
         e.preventDefault();
         const idx = currentIndex();
         goTo(Math.max(idx - 1, 0));
       }
     };
 
-    (scroller as HTMLElement).addEventListener("wheel", onWheel, { passive: false });
+    scroller.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
 
     return () => {
-      (scroller as HTMLElement).removeEventListener("wheel", onWheel as any);
-      window.removeEventListener("keydown", onKey as any);
+      scroller.removeEventListener("wheel", onWheel);
+      window.removeEventListener("keydown", onKey);
     };
   }, []);
 

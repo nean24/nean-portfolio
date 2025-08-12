@@ -21,4 +21,4 @@
 ```bash
 pnpm install
 pnpm dev
-# open http://localhost:3000 (middleware redirects to /en or /vi)
+# open http://localhost:3000 (middleware redirects to /en or /vi)s
