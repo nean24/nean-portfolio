@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AnimatedBlobs from "@/components/AnimatedBlobs";
-import Navbar from "@/components/Navbar";
+import Navbar from '@/components/Navbar';
 import SnapScroll from "@/components/SnapScroll";
 import { getDictionary } from "@/lib/dictionary";
 
