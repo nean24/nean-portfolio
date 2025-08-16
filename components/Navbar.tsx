@@ -56,7 +56,7 @@ export default function Navbar({ dict, locale }: Props) {
             {items.map(({ key, href, id }) => (
               <a
                 key={key}
-                href={`${base}/${href}`}
+                href={href}
                 className={`text-sm px-3 py-1 rounded-lg transition ${
                   active === id ? "bg-white/20 dark:bg-white/10 text-white" : "opacity-80 hover:opacity-100"
                 }`}
