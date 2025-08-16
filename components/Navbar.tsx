@@ -107,7 +107,7 @@ export default function Navbar({ dict, locale, email = "hello@example.com", gith
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="hidden md:flex items-center gap-2 md:gap-3">
             <LangToggle locale={locale} />
             <ThemeToggle />
             <a href={`mailto:${email}`} className="opacity-80 hover:opacity-100" aria-label="Email">
@@ -144,19 +144,25 @@ export default function Navbar({ dict, locale, email = "hello@example.com", gith
                   {dict[key]}
                 </a>
               ))}
-              <div className="flex items-center justify-center gap-4 mt-2 pt-2 border-t border-white/10">
-                <a href={`mailto:${email}`} className="opacity-80 hover:opacity-100" aria-label="Email">
-                  <Mail className="h-5 w-5" />
-                </a>
-                <a
-                  href={githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="opacity-80 hover:opacity-100"
-                  aria-label="GitHub"
-                >
-                  <GitBranch className="h-5 w-5" />
-                </a>
+              <div className="flex items-center justify-between gap-4 mt-4 pt-3 border-t border-white/10">
+                <div className="flex items-center gap-3">
+                  <LangToggle locale={locale} />
+                  <ThemeToggle />
+                </div>
+                <div className="flex items-center gap-3">
+                  <a href={`mailto:${email}`} className="opacity-80 hover:opacity-100" aria-label="Email">
+                    <Mail className="h-5 w-5" />
+                  </a>
+                  <a
+                    href={githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="opacity-80 hover:opacity-100"
+                    aria-label="GitHub"
+                  >
+                    <GitBranch className="h-5 w-5" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
